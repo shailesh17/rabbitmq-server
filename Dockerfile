@@ -1,4 +1,4 @@
-FROM centos
+FROM centos:7
 
 RUN yum install -y wget unzip tar
 RUN rpm -Uvh https://github.com/rabbitmq/erlang-rpm/releases/download/v19.3.6.5/erlang-19.3.6.5-1.el7.centos.x86_64.rpm
