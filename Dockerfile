@@ -1,8 +1,10 @@
 FROM centos:7
 
 RUN yum install -y wget unzip tar
-RUN rpm -Uvh https://github.com/rabbitmq/erlang-rpm/releases/download/v19.3.6.5/erlang-19.3.6.5-1.el7.centos.x86_64.rpm
+RUN localedef -c -f UTF-8 -i en_US en_US.UTF-8
+RUN export LC_ALL=en_US.UTF-8
 
+RUN rpm -Uvh https://github.com/rabbitmq/erlang-rpm/releases/download/v19.3.6.5/erlang-19.3.6.5-1.el7.centos.x86_64.rpm
 RUN yum install -y erlang
 
 RUN rpm --import http://www.rabbitmq.com/rabbitmq-signing-key-public.asc
