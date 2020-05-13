@@ -1,14 +1,20 @@
 FROM centos:7
+MAINTAINER Shailesh Patel shailesh@aboutobjects.com
 
-RUN yum install -y wget unzip tar
-RUN localedef -c -f UTF-8 -i en_US en_US.UTF-8
-RUN export LC_ALL=en_US.UTF-8
+RUN yum update -y
+RUN yum install -y wget unzip tar 
+
+RUN localedef -c -i en_US -f UTF-8 en_US.utf8
+RUN yum reinstall glibc-common -y && \
+  localedef -c -i en_US -f UTF-8 en_US.utf8 && \
+  echo "LANG=en_US.utf8" > /etc/locale.conf
+
+ENV LANG="en_US.utf8" LC_ALL="en_US.utf8"
 
 RUN rpm -Uvh https://github.com/rabbitmq/erlang-rpm/releases/download/v19.3.6.5/erlang-19.3.6.5-1.el7.centos.x86_64.rpm
 RUN yum install -y erlang
 
 RUN rpm --import http://www.rabbitmq.com/rabbitmq-signing-key-public.asc
-
 RUN yum install -y  https://github.com/rabbitmq/rabbitmq-server/releases/download/v3.7.0/rabbitmq-server-3.7.0-1.el7.noarch.rpm
 
 RUN /usr/sbin/rabbitmq-plugins list <<<'y'
@@ -37,4 +43,4 @@ EXPOSE 9103
 EXPOSE 9104
 EXPOSE 9105
 
-CMD /opt/rabbit/startrabbit.sh
+CMD LANG="en_US.UTF-8" LC_CTYPE="en_US.UTF-8" LC_ALL="en_US.UTF-8" /opt/rabbit/startrabbit.sh
